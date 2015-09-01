@@ -1,0 +1,12 @@
+---
+- name: main server config
+  hosts: dev.safecast.org
+  sudo: yes
+  gather_facts: no
+  roles:
+    - base
+  vars:
+    deploy_path: /home/safecast/safecastapi
+  vars_files:
+    - keys.yml
+

@@ -1,1 +1,2 @@
+- include: app.yml
 - include: worker.yml

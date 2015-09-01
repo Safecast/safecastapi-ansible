@@ -1,0 +1,29 @@
+- name: ensure safecast user owns deployment path
+  file:
+    path: /home/safecast/safecastapi
+    owner: safecast
+    group: safecast
+    state: directory
+    recurse: yes
+- known_hosts:
+    path: /etc/ssh/ssh_known_hosts
+    name: github.com
+    key: "{{ lookup('file', 'pubkeys/github.com') }}"
+- git:
+    repo: git://github.com/Safecast/safecastapi.git
+    dest: "{{ deploy_path }}"
+  become: yes
+  become_user: safecast
+  register: gitupdate
+- template:
+    owner: safecast
+    group: safecast
+    src: dotenv.j2
+    dest: "{{ deploy_path }}/.env"
+    mode: 0600
+- shell: "bundle install --deployment && touch tmp/restart.txt"
+  args:
+    chdir: "{{ deploy_path }}"
+  become: yes
+  become_user: safecast
+  when: gitupdate.changed
