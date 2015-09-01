@@ -1,5 +1,8 @@
+[dev]
 dev.safecast.org
 
-[all:vars]
+[prod]
+
+[dev:vars]
 ansible_sudo=true
 #ansible_sudo_pass=...
