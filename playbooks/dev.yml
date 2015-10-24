@@ -7,6 +7,7 @@
     - base
   vars:
     deploy_path: /home/safecast/safecastapi
+    deploy_version: master
   vars_files:
     - keys.yml
 

@@ -12,18 +12,16 @@
 - git:
     repo: git://github.com/Safecast/safecastapi.git
     dest: "{{ deploy_path }}"
+    version: "{{ deploy_version }}"
   become: yes
   become_user: safecast
-  register: gitupdate
+  notify:
+    - bundle app
+    - restart passenger
+    - restart safecastapi-worker
 - template:
     owner: safecast
     group: safecast
     src: dotenv.j2
     dest: "{{ deploy_path }}/.env"
     mode: 0600
-- shell: "bundle install --deployment && touch tmp/restart.txt"
-  args:
-    chdir: "{{ deploy_path }}"
-  become: yes
-  become_user: safecast
-  when: gitupdate.changed

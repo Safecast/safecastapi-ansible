@@ -1,0 +1,15 @@
+- name: bundle app
+  shell: "bundle install --deployment"
+  args:
+    chdir: "{{ deploy_path }}"
+  become: yes
+  become_user: safecast
+- name: restart passenger
+  file:
+    path: "{{ deploy_path }}/tmp/restart.txt"
+    owner: safecast
+    state: touch
+- name: restart safecastapi-worker
+  service:
+    name: safecastapi-worker
+    state: restarted
