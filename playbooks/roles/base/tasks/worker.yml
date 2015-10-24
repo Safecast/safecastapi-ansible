@@ -1,2 +1,2 @@
 - template: src=safecastapi-worker.conf.j2 dest=/etc/init/safecastapi-worker.conf backup=yes mode=0644
-- service: name=safecastapi-worker state=restarted
+- service: name=safecastapi-worker state=started
